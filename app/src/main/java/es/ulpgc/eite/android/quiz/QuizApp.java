@@ -7,7 +7,7 @@ public class QuizApp extends Application {
 
   private QuestionState questionState;
   private CheatState cheatState;
-  private QuestionStore questionStore;
+  private Model model;
 
   @Override
   public void onCreate() {
@@ -17,11 +17,11 @@ public class QuizApp extends Application {
     questionState.toolbarVisible = false;
     questionState.answerVisible = false;
 
-    questionStore = new QuestionStore();
+    model = new Model();
   }
 
-  public QuestionStore getQuestionStore(){
-    return questionStore;
+  public Model getModel(){
+    return model;
   }
 
   public boolean isAnswerBtnClicked() {
@@ -43,8 +43,8 @@ public class QuizApp extends Application {
   public void setAnswerVisibility(boolean visible) {
     questionState.answerVisible = visible;
   }
-
-  public void goToCheatScreen(QuestionActivity activity){
+/*
+  public void goToCheatScreen(View activity){
     cheatState = new CheatState();
     cheatState.toolbarVisible = false;
     cheatState.answerVisible = false;
@@ -53,7 +53,7 @@ public class QuizApp extends Application {
     activity.startActivity(new Intent(activity, CheatActivity.class));
   }
 
-
+*/
   public void backToQuestionScreen(CheatActivity activity){
     activity.finish();
   }
