@@ -7,13 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class CheatActivity extends AppCompatActivity {
+public class CheatView extends AppCompatActivity {
 
-  private boolean toolbarVisible;
-  private boolean confirmBtnClicked;
-  private boolean answerVisible;
-  private boolean answerBtnClicked;
-  private QuizApp quizApp;
+  private QuizApp mediator;
+  private CheatPresenter presenter;
 
   private String falseLabel, trueLabel;
   private String confirmLabel;
@@ -39,14 +36,14 @@ public class CheatActivity extends AppCompatActivity {
     buttonTrue.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        onTrueBtnClicked();
+        presenter.onTrueBtnClicked();
       }
     });
     buttonFalse = (Button) findViewById(R.id.buttonFalse);
     buttonFalse.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        onFalseBtnClicked();
+        presenter.onFalseBtnClicked();
       }
     });
     
@@ -54,77 +51,17 @@ public class CheatActivity extends AppCompatActivity {
   }
 
   private void onScreenStarted() {
-    //quizApp = (QuizApp) getApplication();
+    mediator = (QuizApp) getApplication();
+    mediator.setCheatView(this);
+    presenter = mediator.getCheatPresenter();
 
     falseLabel = "False";
     trueLabel = "True";
     confirmLabel = "Are you sure?";
 
     setButtonLabels();
-    checkVisibility();
+    mediator.checkCheatVisibility();
 
-    if(confirmBtnClicked){
-      setAnswer(getAnswer());
-    }
-  }
-
-  private void onFalseBtnClicked() {
-    finish();
-    //quizApp.backToQuestionScreen(this);
-  }
-
-  private void onTrueBtnClicked() {
-    setAnswer(getAnswer());
-    setAnswerVisibility(true);
-    confirmBtnClicked = true;
-    checkAnswerVisibility();
-  }
-
-  /*
-  private void setAnswerVisibility(boolean visible) {
-    quizApp.setAnswerVisibility(visible);
-  }
-
-  private boolean isAnswerVisible() {
-    return quizApp.isAnswerVisible();
-  }
-
-  private boolean isToolbarVisible() {
-    return quizApp.isToolbarVisible();
-  }
-  */
-
-  private void setAnswerVisibility(boolean visible) {
-    answerVisible = visible;
-  }
-
-  private boolean isAnswerVisible() {
-    return answerVisible;
-  }
-
-  private boolean isToolbarVisible() {
-    return toolbarVisible;
-  }
-
-
-  private void checkAnswerVisibility(){
-    if(!isAnswerVisible()) {
-      hideAnswer();
-    } else {
-      showAnswer();
-    }
-  }
-
-
-  private void checkToolbarVisibility(){
-    if (!isToolbarVisible()) {
-      hideToolbar();
-    }
-  }
-
-  private void checkVisibility(){
-    checkToolbarVisibility();
-    checkAnswerVisibility();
   }
 
 
@@ -135,15 +72,15 @@ public class CheatActivity extends AppCompatActivity {
   }
   
   
-  private void hideToolbar() {
+  public void hideToolbar() {
     toolbarScreen.setVisibility(View.GONE);
   }
 
-  private void hideAnswer() {
+  public void hideAnswer() {
     labelAnswer.setVisibility(View.INVISIBLE);
   }
 
-  private void setAnswer(String txt) {
+  public void setAnswer(String txt) {
     labelAnswer.setText(txt);
   }
 
@@ -159,7 +96,7 @@ public class CheatActivity extends AppCompatActivity {
     buttonTrue.setText(label);
   }
 
-  private void showAnswer() {
+  public void showAnswer() {
     labelAnswer.setVisibility(View.VISIBLE);
   }
 
@@ -174,7 +111,7 @@ public class CheatActivity extends AppCompatActivity {
   }
 
 
-  private String getAnswer() {
+  public String getAnswer() {
     if(trueAnswer) {
       return trueLabel;
     } else {
@@ -186,7 +123,7 @@ public class CheatActivity extends AppCompatActivity {
     return trueLabel;
   }
 
-  private void setAnswer(boolean answer){
+  public void setAnswer(boolean answer){
     trueAnswer = answer;
   }
 }

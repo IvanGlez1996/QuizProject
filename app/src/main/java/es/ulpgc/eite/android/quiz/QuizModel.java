@@ -10,11 +10,12 @@ import android.widget.TextView;
  * Created by ivang_000 on 02/02/2017.
  */
 
-public class Model {
+public class QuizModel {
 
     private String correctLabel, incorrectLabel;
     private int quizIndex;
     private boolean[] userAnswers = new boolean[20];
+    private QuizApp mediator;
 
     private String[] quizQuestions = {
             "Christian Bale played Batman in 'The Dark Knight Rises'?", // 1
@@ -62,9 +63,10 @@ public class Model {
             true // 20
     };
 
-    public Model() {
+    public QuizModel(QuizApp mediator) {
         correctLabel = "Correct!";
         incorrectLabel = "Incorrect...";
+        this.mediator = mediator;
     }
 
     public String getCurrentAnswer() {
@@ -100,11 +102,8 @@ public class Model {
         setCurrentAnswer(answer);
     }
 
-
-   /* private void goToCheatScreen(){
-        startActivity(new Intent(this, CheatActivity.class));
-        //quizApp.goToCheatScreen(this);
+    public boolean getCheatAnswer (){
+        return quizAnswers[quizIndex];
     }
-*/
 
 }
